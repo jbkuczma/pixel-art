@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jbkuczma/pixel-art/issues"
   },
-  "homepage": "https://github.com/jbkuczma/pixel-art#readme"
+  "homepage": "https://github.com/jbkuczma/pixel-art#readme",
+  "dependencies": {
+    "jimp": "^0.2.27"
+  }
 }
