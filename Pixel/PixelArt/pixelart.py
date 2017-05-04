@@ -32,7 +32,7 @@ class PixelArt:
         self.image = reduced
 
     # def adjustBlackLevel(self):
-    #     #todo
+    #      #todo
 
     # def adjustWhiteLevel(self):
     #     #todo
