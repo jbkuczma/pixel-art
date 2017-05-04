@@ -1,4 +1,5 @@
 from PIL import Image, ImageEnhance
+from .. import util
 
 class PixelArt:
 
@@ -36,11 +37,23 @@ class PixelArt:
         self.image = resized
 
     def resizeImageWithPercent(self, percent):
-        resized = self.image.resize((self.width, self.height), Image.ANTIALIAS)
+        # resize image back up to its original dimensions (or a percent of the desired dimensions)
+        # since util.turnNumberIntoPercent() returns a float, we need to cast the new width/height to an int after multiplying so that image.resize will work
+        width = int(self.width * util.turnNumberIntoPercent(percent))
+        height = int(self.height * util.turnNumberIntoPercent(percent))
+        resized = self.image.resize((width, height), Image.ANTIALIAS)
         self.image = resized
 
     def save(self, filename):
         self.image.save(filename)
+
+    def turnImageIntoPixelArt(self, numberOfColorsInPalette, resizePercent, outputFilename):
+        self.saturateImage()
+        self.reduceNumberOfColorsInPalette(numberOfColorsInPalette)
+        self.resizeImageWithPixel()
+        self.resizeImageWithPercent(resizePercent)
+        self.save(outputFilename)
+        print('Pixel Art complete!')
         
 
     
