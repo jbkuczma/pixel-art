@@ -31,6 +31,12 @@ class PixelArt:
         reduced = self.image.convert('P', palette=Image.ADAPTIVE, colors=numberOfColors)
         self.image = reduced
 
+    # def adjustBlackLevel(self):
+    #     #todo
+
+    # def adjustWhiteLevel(self):
+    #     #todo
+
     def resizeImageWithPixel(self):
         # change
         resized = self.image.resize((75, 50), Image.ANTIALIAS)
@@ -47,9 +53,11 @@ class PixelArt:
     def save(self, filename):
         self.image.save(filename)
 
-    def turnImageIntoPixelArt(self, numberOfColorsInPalette, resizePercent, outputFilename):
+    def turnImageIntoPixelArt(self, outputFilename, numberOfColorsInPalette=40, resizePercent=100):
         self.saturateImage()
         self.reduceNumberOfColorsInPalette(numberOfColorsInPalette)
+        # self.adjustBlackLevel()
+        # self.adjustWhiteLevel()
         self.resizeImageWithPixel()
         self.resizeImageWithPercent(resizePercent)
         self.save(outputFilename)
