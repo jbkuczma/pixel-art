@@ -71,7 +71,7 @@ class PixelSort:
     
     def getFirstPixelNotBlackY(self, x, y):
         if y < self.height:
-            while self.pixels[x + y * self.width] < self.blackValue:
+            while self.rgbToInt(self.pixels[x + y * self.width]) < self.blackValue:
                y+=1
                if y >= self.height:
                    return -1
@@ -80,7 +80,7 @@ class PixelSort:
     def getNextBlackPixelY(self, x, y):
         y+=1
         if y < self.height:
-            while self.pixels[x + y * self.width] > self.blackValue:
+            while self.rgbToInt(self.pixels[x + y * self.width]) > self.blackValue:
                 y+=1
                 if y >= self.height:
                     return self.height - 1
@@ -105,7 +105,7 @@ class PixelSort:
 
     def getFirstPixelNotWhiteY(self, x, y):
         if y < self.height:
-            while self.pixels[x + y * self.width] > self.whiteValue:
+            while self.rgbToInt(self.pixels[x + y * self.width]) > self.whiteValue:
                 y+=1
                 if y >= self.height:
                     return -1
@@ -114,7 +114,7 @@ class PixelSort:
     def getNextWhitePixelY(self, x, y):
         y+=1
         if y < self.height:
-            while self.pixels[x + y * self.width] < self.whiteValue:
+            while self.rgbToInt(self.pixels[x + y * self.width]) < self.whiteValue:
                 y+=1
                 if y >= self.height:
                     return self.height-1
@@ -167,8 +167,9 @@ class PixelSort:
             
             x = xEnd+1
     
+    # black #
     def getFirstPixelNotBlackX(self, x, y):
-        while self.pixels[x + y * self.width] < self.blackValue:
+        while self.rgbToInt(self.pixels[x + y * self.width]) < self.blackValue:
             x+=1
             if x >= self.width:
                 return -1
@@ -176,12 +177,13 @@ class PixelSort:
 
     def getNextBlackPixelX(self, x, y):
         x+=1
-        while self.pixels[x + y * self.width] > self.blackValue:
+        while self.rgbToInt(self.pixels[x + y * self.width]) > self.blackValue:
             x+=1
-            if x > self.width:
+            if x >= self.width:
                 return self.width - 1
         return x-1
 
+    # brightness #
     def getFirstBrightPixelX(self, x, y):
         while self.getBrightness(self.pixels[x + y * self.width]) < self.brightnessValue:
             x+=1
@@ -197,8 +199,9 @@ class PixelSort:
                 return self.width - 1
         return x-1
 
+    # white #
     def getFirstPixelNotWhiteX(self, x, y):
-        while self.pixels[x + y * self.width] > self.whiteValue:
+        while self.rgbToInt(self.pixels[x + y * self.width]) > self.whiteValue:
             x+=1
             if x >= self.width:
                 return -1
@@ -206,7 +209,7 @@ class PixelSort:
 
     def getNextWhitePixelX(self, x, y):
         x+=1
-        while self.pixels[x + y * self.width] < self.whiteValue:
+        while self.rgbToInt(self.pixels[x + y * self.width]) < self.whiteValue:
             x+=1
             if x >= self.width:
                 self.width - 1
@@ -223,6 +226,13 @@ class PixelSort:
         g = pixel[1]
         b = pixel[2]
         return (r * 0.2126) + (g * 0.7152) + (b * 0.0722)
+    
+    # turn rgb tuple into an int to compare to white/black level threshold
+    def rgbToInt(self, pixel):
+        r = pixel[0]
+        g = pixel[1]
+        b = pixel[2]
+        return (0xFFFF * r) + (0xFF * g) + (b)
     
     def save(self, filename):
         #create a new image with the same mode and dimensions as the original image
